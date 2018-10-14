@@ -16,6 +16,7 @@ for follower in tweepy.Cursor(api.followers).items():
 def retweet_fav(query):
     print("Retweeting and Favoriting: " + query)
     result = twitter.search(q=query, count=50, since="2018-10-07")
+    duplicates = 0
     for tweet in result["statuses"]:
         try:
             twitter.create_favorite(id = tweet["id_str"])
@@ -27,11 +28,23 @@ def retweet_fav(query):
             sleep(60)
 
         except TwythonError as e:
-            print(e)
+            if "403 (Forbidden)" in str(e):
+                duplicates += 1
+            else:
+                print("  " + str(e))
 
         except StopIteration:
             break
+    print("  " + str(duplicates) + " duplicate(s) found")
 
-retweet_fav(query="#FateCore")
-retweet_fav("#FateAccelerated")
-retweet_fav("#FateRPG")
+# Keep the program running
+while 1:
+    retweet_fav(query="#FateCore")
+    retweet_fav("#FateAccelerated")
+    retweet_fav("#FateRPG")
+    counter = 30
+    while counter > 0:
+        print(str(counter) + " minutes until next scan")
+        counter -= 5
+        sleep(300)
+
