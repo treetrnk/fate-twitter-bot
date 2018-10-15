@@ -31,9 +31,9 @@ while 1:
     retweet_fav(query="#FateCore")
     retweet_fav("#FateAccelerated")
     retweet_fav("#FateRPG")
-    counter = 30
+    counter = 120
     while counter > 0:
         print("  " + str(counter) + " minutes until next scan")
-        counter -= 5
-        sleep(300)
+        counter -= 15
+        sleep(900)
 
